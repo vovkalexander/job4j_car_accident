@@ -13,16 +13,22 @@
 </head>
 <body>
 <div class="container">
-<table id = "table">
+<table id = "table"  class="table table-hover">
     <thead>
     <tr>
-        <th>Контакты<th>
+        <th>№<th>
+        <th>Имя<th>
+        <th>Описание<th>
+        <th>Место события<th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="listElement" items = "${lists}">
+    <c:forEach var="accident" items = "${lists}">
         <tr>
-            <td>${listElement}</td>
+            <td>${accident.id}</td>
+            <td>${accident.name}</td>
+            <td>${accident.text}</td>
+            <td>${accident.address}</td>
         </tr>
     </c:forEach>
     </tbody>
