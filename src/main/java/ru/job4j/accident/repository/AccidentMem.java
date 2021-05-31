@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 @Repository
 public class AccidentMem {
-  private HashMap<Integer, Accident> accidents = new HashMap<>();
+  private final HashMap<Integer, Accident> accidents = new HashMap<>();
 
   public AccidentMem() {
     accidents.put(1, new Accident(1, "Pupkin", "was drunk", "Russian"));
