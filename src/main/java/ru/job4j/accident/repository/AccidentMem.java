@@ -18,4 +18,10 @@ public class AccidentMem {
   public Collection<Accident> findAll() {
     return this.accidents.values();
   }
+
+  public void addAccident(Accident accident) {
+    int key = accidents.keySet().stream().reduce(Integer.MIN_VALUE, Math::max) + 1;
+    accident.setId(key);
+    accidents.put(key, accident);
+  }
 }
