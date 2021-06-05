@@ -22,7 +22,13 @@ public class AccidentMem {
   }
 
   public void addAccident(Accident accident) {
-    accident.setId(key.incrementAndGet());
+    if (accident.getId() == 0) {
+      accident.setId(key.incrementAndGet());
+    }
     accidents.put(accident.getId(), accident);
+  }
+
+  public Accident findById(int id) {
+    return this.accidents.get(id);
   }
 }
