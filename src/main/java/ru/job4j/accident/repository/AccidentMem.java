@@ -4,10 +4,12 @@ import ru.job4j.accident.model.Accident;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem {
   private final HashMap<Integer, Accident> accidents = new HashMap<>();
+  private AtomicInteger key = new AtomicInteger(3);
 
   public AccidentMem() {
     accidents.put(1, new Accident(1, "Pupkin", "was drunk", "Russian"));
@@ -20,8 +22,7 @@ public class AccidentMem {
   }
 
   public void addAccident(Accident accident) {
-    int key = accidents.keySet().stream().reduce(Integer.MIN_VALUE, Math::max) + 1;
-    accident.setId(key);
-    accidents.put(key, accident);
+    accident.setId(key.incrementAndGet());
+    accidents.put(accident.getId(), accident);
   }
 }
