@@ -30,19 +30,21 @@
             <th>Имя<th>
             <th>Описание<th>
             <th>Место события<th>
+            <th>Тип</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="accident" items = "${lists}">
             <tr>
                 <td>
-                     <span> <a href = "<c:url value='//edit?id=${accident.id}'/>"><i class="fas fa-edit"></i></a> </span>
+                    <span> <a href = "<c:url value='//edit?id=${accident.id}'/>"><i class="fas fa-edit"></i></a> </span>
                     <span> ${accident.id} </span>
 
                 </td>
                 <td>${accident.name}</td>
                 <td>${accident.text}</td>
                 <td>${accident.address}</td>
+                <td>${accident.type}</td>
             </tr>
         </c:forEach>
         </tbody>

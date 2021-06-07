@@ -30,6 +30,17 @@
                 <td><input type="text" name="address"></td>
             </tr>
             <tr>
+                <td>Тип:</td>
+                <td>
+                    <select name="type.id">
+                        <option value="" selected></option>
+                        <c:forEach var="type" items="${types}" >
+                            <option value="${type.id}">${type.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td colspan='2'><input name="submit" type="submit" class="btn btn-primary" value="Сохранить" /></td>
             </tr>
         </table>
