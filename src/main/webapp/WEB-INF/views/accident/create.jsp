@@ -32,10 +32,20 @@
             <tr>
                 <td>Тип:</td>
                 <td>
-                    <select name="type.id">
+                    <select name="type.id" >
                         <option value="" selected></option>
                         <c:forEach var="type" items="${types}" >
                             <option value="${type.id}">${type.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Статьи:</td>
+                <td>
+                    <select name="rIds" multiple>
+                        <c:forEach var="rule" items="${rules}" >
+                            <option value="${rule.id}">${rule.name}</option>
                         </c:forEach>
                     </select>
                 </td>

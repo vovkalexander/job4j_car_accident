@@ -31,6 +31,7 @@
             <th>Описание<th>
             <th>Место события<th>
             <th>Тип</th>
+            <th>Статья</th>
         </tr>
         </thead>
         <tbody>
@@ -45,6 +46,11 @@
                 <td>${accident.text}</td>
                 <td>${accident.address}</td>
                 <td>${accident.type}</td>
+                <td>
+                    <c:forEach var="rule" items="${accident.rules}" >
+                        ${rule.name}
+                    </c:forEach>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
