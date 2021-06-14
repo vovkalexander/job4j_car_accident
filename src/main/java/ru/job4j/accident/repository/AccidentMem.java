@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
-public class AccidentMem {
+public class AccidentMem implements DaoAccident {
   private final HashMap<Integer, Accident> accidents = new HashMap<>();
   private AtomicInteger key = new AtomicInteger(3);
   private final HashMap<Integer, AccidentType> types = new HashMap<>();
@@ -28,10 +28,12 @@ public class AccidentMem {
 
   }
 
+  @Override
   public Collection<Accident> findAll() {
     return this.accidents.values();
   }
 
+  @Override
   public void addAccident(Accident accident) {
     if (accident.getId() == 0) {
       accident.setId(key.incrementAndGet());
@@ -39,22 +41,41 @@ public class AccidentMem {
     accidents.put(accident.getId(), accident);
   }
 
+  @Override
   public Accident findById(int id) {
     return this.accidents.get(id);
   }
 
+  @Override
+  public AccidentType findTypeById(int id) {
+    return null;
+  }
+
+  @Override
+  public Rule findRuleById(int id) {
+    return null;
+  }
+
+  @Override
   public Collection<AccidentType> findAllTypes() {
     return  types.values();
   }
 
+  @Override
   public Collection<Rule> findAllRules() {
     return rules.values();
   }
 
+  @Override
+  public void update(Accident accident) {
+
+  }
+
+  @Override
   public Set<Rule> installRules(String[] ids) {
     Set<Rule> rules = new HashSet<>();
     for (String id : ids) {
-       rules.add(this.rules.get(Integer.parseInt(id)));
+      rules.add(this.rules.get(Integer.parseInt(id)));
     }
     return rules;
   }

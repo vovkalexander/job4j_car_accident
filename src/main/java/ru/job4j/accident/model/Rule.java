@@ -44,4 +44,5 @@ public class Rule {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
