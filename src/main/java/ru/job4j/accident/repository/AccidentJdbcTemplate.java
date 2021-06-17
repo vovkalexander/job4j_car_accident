@@ -17,8 +17,15 @@ import java.util.Set;
 public class AccidentJdbcTemplate implements DaoAccident {
     private static final String SQL_INSERT_ACCIDENT =
             "INSERT INTO accident (name, text, address, type_id) VALUES (?, ?, ?, ?)";
+
     private static final String SQL_SELECT_ALL =
-            "SELECT id, name, text, address, type_id from accident";
+            "select accident.id, accident.name, text, address, type_id, ARRAY_AGG(rule.id) from accident" +
+                    " inner join accident_rule" +
+                    " on accident.id = accident_rule.accident_id" +
+                    " inner join rule" +
+                    " on accident_rule.rule_id = rule.id" +
+                    " group by accident.id";
+
     private static final String SQL_SELECT_BY_ID =
             SQL_SELECT_ALL + " WHERE id = ?";
     private final JdbcTemplate jdbc;
@@ -62,8 +69,15 @@ public class AccidentJdbcTemplate implements DaoAccident {
                     accident.setText(rs.getString("text"));
                     accident.setAddress(rs.getString("address"));
                     accident.setType(this.findTypeById(rs.getInt("type_id")));
+                    Integer[] pgArray = (Integer[]) rs.getArray("array_agg").getArray();
+                    Set<Rule> rules = new HashSet<>();
+                    for (Integer id : pgArray) {
+                        rules.add(this.findRuleById(id));
+                    }
+                    accident.setRules(rules);
                     return accident;
                 });
+
     }
 
     @Override
