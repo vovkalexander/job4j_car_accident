@@ -28,9 +28,7 @@ public class AccidentControl {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
-        System.out.println(accident);
         accident.setRules(template.installRules(req.getParameterValues("rIds")));
-        System.out.println(accident);
         if (accident.getId() == 0) {
             template.addAccident(accident);
         }

@@ -24,10 +24,18 @@ public class AccidentJdbcTemplate implements DaoAccident {
                     " on accident.id = accident_rule.accident_id" +
                     " inner join rule" +
                     " on accident_rule.rule_id = rule.id" +
-                    " group by accident.id";
+                    " group by accident.id" +
+                    " Order by accident.id";
 
     private static final String SQL_SELECT_BY_ID =
-            SQL_SELECT_ALL + " WHERE id = ?";
+            "select accident.id, accident.name, text, address, type_id, ARRAY_AGG(rule.id) from accident" +
+                    " inner join accident_rule" +
+                    " on accident.id = accident_rule.accident_id" +
+                    " inner join rule" +
+                    " on accident_rule.rule_id = rule.id" +
+                    " WHERE accident.id = ?" +
+                    " group by accident.id";
+
     private final JdbcTemplate jdbc;
 
     public  AccidentJdbcTemplate(JdbcTemplate jdbc) {
@@ -90,6 +98,12 @@ public class AccidentJdbcTemplate implements DaoAccident {
                     accident.setText(rs.getString("text"));
                     accident.setAddress(rs.getString("address"));
                     accident.setType(this.findTypeById(rs.getInt("type_id")));
+                    Integer[] pgArray = (Integer[]) rs.getArray("array_agg").getArray();
+                    Set<Rule> rules = new HashSet<>();
+                    for (Integer idRule : pgArray) {
+                        rules.add(this.findRuleById(idRule));
+                    }
+                    accident.setRules(rules);
                     return accident;
                 }, id);
     }
