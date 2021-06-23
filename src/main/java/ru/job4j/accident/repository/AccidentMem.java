@@ -7,7 +7,7 @@ import ru.job4j.accident.model.Rule;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Repository
+//@Repository
 public class AccidentMem implements DaoAccident {
   private final HashMap<Integer, Accident> accidents = new HashMap<>();
   private AtomicInteger key = new AtomicInteger(3);

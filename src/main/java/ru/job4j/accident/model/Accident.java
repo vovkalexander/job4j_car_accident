@@ -1,20 +1,38 @@
 package ru.job4j.accident.model;
+import org.springframework.core.annotation.Order;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
+@Table(name = "accident")
 public class Accident {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String text;
     private String address;
+    @ManyToOne
+    @JoinColumn(name = "type_id", foreignKey = @ForeignKey(name = "TYPE_ID_FK"))
     private AccidentType type;
-    private Set<Rule> rules;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+           name = "accident_rule",
+           joinColumns = @JoinColumn(name = "accident_id"),
+            inverseJoinColumns = @JoinColumn(name = "rule_id")
+
+    )
+
+    private Set<Rule> rules = new HashSet<>();
 
     public Accident() {
     }
 
-    public Accident(int id, String name, String text, String address, AccidentType type, Set<Rule> rules) {
+    public Accident(int id, String name, String text, String address,
+                    AccidentType type, Set<Rule> rules) {
         this.id = id;
         this.name = name;
         this.text = text;

@@ -3,15 +3,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.repository.AccidentHibernate;
 import ru.job4j.accident.repository.AccidentJdbcTemplate;
 import ru.job4j.accident.repository.AccidentMem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class IndexControl {
-    private final AccidentJdbcTemplate template;
+    private final AccidentHibernate template;
 
-    public IndexControl(AccidentJdbcTemplate template) {
+    public IndexControl(AccidentHibernate template) {
         this.template = template;
     }
 

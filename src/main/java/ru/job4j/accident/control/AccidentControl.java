@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentJdbcTemplate;
-import ru.job4j.accident.repository.DaoAccident;
+import ru.job4j.accident.repository.AccidentHibernate;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 @Controller
 public class AccidentControl {
-    private final DaoAccident template;
+    private final AccidentHibernate template;
 
-    public AccidentControl(AccidentJdbcTemplate template) {
+    public AccidentControl(AccidentHibernate template) {
         this.template = template;
     }
 
@@ -33,7 +32,6 @@ public class AccidentControl {
             template.addAccident(accident);
         }
         template.update(accident);
-
         return "redirect:/";
     }
 
