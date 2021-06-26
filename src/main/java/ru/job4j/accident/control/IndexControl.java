@@ -7,18 +7,23 @@ import ru.job4j.accident.repository.AccidentHibernate;
 import ru.job4j.accident.repository.AccidentJdbcTemplate;
 import ru.job4j.accident.repository.AccidentMem;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.job4j.accident.repository.AccidentRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class IndexControl {
-    private final AccidentHibernate template;
+    private final AccidentRepository template;
 
-    public IndexControl(AccidentHibernate template) {
+    public IndexControl(AccidentRepository template) {
         this.template = template;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("lists", template.findAll());
+        List<Accident> rsl = new ArrayList<>();
+        template.findAll().forEach(rsl::add);
+        model.addAttribute("lists", rsl);
         return "index";
     }
 }

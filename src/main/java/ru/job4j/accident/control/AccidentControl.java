@@ -8,16 +8,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentHibernate;
+import ru.job4j.accident.repository.AccidentRepository;
+import ru.job4j.accident.repository.AccidentTypeRepositoty;
+import ru.job4j.accident.repository.RuleRepository;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class AccidentControl {
-    private final AccidentHibernate template;
+    private final AccidentRepository template;
+    private final AccidentTypeRepositoty types;
+    private final RuleRepository rules;
 
-    public AccidentControl(AccidentHibernate template) {
+    public AccidentControl(AccidentRepository template, AccidentTypeRepositoty types,
+                           RuleRepository rules) {
         this.template = template;
+        this.types = types;
+        this.rules = rules;
     }
 
     @GetMapping("/create")
@@ -27,11 +36,8 @@ public class AccidentControl {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
-        accident.setRules(template.installRules(req.getParameterValues("rIds")));
-        if (accident.getId() == 0) {
-            template.addAccident(accident);
-        }
-        template.update(accident);
+        accident.setRules(this.installRules(req.getParameterValues("rIds")));
+        template.save(accident);
         return "redirect:/";
     }
 
@@ -43,11 +49,20 @@ public class AccidentControl {
 
     @ModelAttribute("types")
     public Collection<AccidentType> types() {
-        return template.findAllTypes();
+        return (Collection<AccidentType>) types.findAll();
     }
 
     @ModelAttribute("rules")
     public Collection<Rule> rules() {
-        return template.findAllRules();
+        return (Collection<Rule>) rules.findAll();
+    }
+
+    public Set<Rule> installRules(String[] ids) {
+        Set<Rule> rule = new HashSet<>();
+        for (String id : ids) {
+            System.out.println(id);
+            rule.add(this.rules.findById(Integer.parseInt(id)));
+        }
+        return rule;
     }
 }
