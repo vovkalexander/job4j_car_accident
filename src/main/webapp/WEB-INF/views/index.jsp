@@ -19,6 +19,10 @@
             <li class="nav-item">
                 <a class ="nav-link" href="<c:url value='//create'/>">Добавить</a>
             </li>
+            <li class="nav-item">
+                <a class ="nav-link" href="<c:url value='/login'/>">Login as : ${user.username}</a>
+            </li>
+
         </ul>
     </div>
 </div>
